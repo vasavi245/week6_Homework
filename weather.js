@@ -1,57 +1,13 @@
 $(document).ready(function() {
   var apiKey = "51cf29ba1bfca5fc3108cefcddf70638";
-  //var cityArray = [];
+  cityArray = [];
 
-  $("#searchBtn").click(function() {
-    var cityInput = $(".cityText")
-      .val()
-      .trim();
-    //var cityToStore = cityInput;
+  
 
-    // clear input box
-    $(".cityText").val("");
-    console.log(cityInput);
-    storeInLocalStorage(cityInput);
-    displayLocalStorage();
-
-    function storeInLocalStorage() {
-      var cityToStore = cityInput;
-      for(i=0; i<cityInput.length; i++){
-      var strCities = window.localStorage.getItem("strCities") || "[]";
-      console.log(strCities);
-     
-      const cities = JSON.parse(strCities);
-      cities.push(cityToStore);
-      strCities = JSON.stringify(cities);
-      localStorage.setItem("Searched cities", strCities);
-      console.log("Local Storage: ", strCities);
-      }
-      
-    }
-
-    storeInLocalStorage();
-    function displayLocalStorage() {
-
-      var history = "";
-      if (localStorage.getItem("history") !== "") {
-          var history = localStorage.getItem("history");
-      }
-
-
-      if (history !== "") {
-          $("#lastResults").html(
-              "<b>Last Results:</b>" +
-              "<ul data-role=\"listview\" data-inset=\"true\" >" +
-              "<li><a href=\"#test\"> " + history + " </a></li>" +
-              "</ul>"
-          );
-      }
-  };
-
-
+    function displayWeather(city){
     var queryURL =
       "http://api.openweathermap.org/data/2.5/weather?q=" +
-      cityInput +
+      city +
       "&APPID=" +
       apiKey;
     var currentDate = moment()
@@ -67,7 +23,7 @@ $(document).ready(function() {
       var tempF = Math.floor(tempM);
 
       $("#city").text(response.name);
-      $("#currentDateAndTime").html(currentDate);
+      $("#currentDateAndTime").text(currentDate);
       $("#currentTempurature").html(`${tempF}&#176;F`);
       $("#currentHumidity").html(response.main.humidity + "%");
       $("#currentWindSpeed").html(response.wind.speed);
@@ -107,35 +63,31 @@ $(document).ready(function() {
         $("#currentUVIndex").html(uvIndex);
         $("#currentUVIndex").attr("style", "background-color: " + uvColor);
 
-        makeList();
-        // fiveDayForecast();
+      
       });
+    });
+    }
 
+      function displaySearchedCity(newCity) {
+        $(".list-group-item-action").empty();
+        localStorage.setItem("SearchedCity", JSON.stringify(cityArray))
+        for(i=0; i<cityArray.length; i++){
+        let listCities = $("<a href=#>");
+          listCities.addClass("list-group-item");
+          listCities.attr(cityArray[i]);
+          listCities.text(cityArray[i]);
+        $(".list-group-item-action").append(listCities);
+        }
+
+        
+      }
+
+      function fiveDayForecast(cityInput){
       var forecastURL =
         "http://api.openweathermap.org/data/2.5/forecast?q=" +
         cityInput +
         "&APPID=" +
         apiKey;
-
-      function makeList() {
-        let listCities = $("<a href=#>")
-          .addClass("list-group-item")
-          .text(cityInput);
-        $(".list-group-item-action").append(listCities);
-
-        $(".list-group-item").click(function() {
-          event.preventDefault();
-
-          city = $(this)
-            .prev()
-            .val();
-          $(cityInput).push(city);
-
-          if (cityInput == "") {
-            return;
-          }
-        });
-      }
       $.ajax({
         url: forecastURL,
         method: "GET"
@@ -189,8 +141,40 @@ $(document).ready(function() {
           }
         }
       });
-    });
+      }
+      $("#searchBtn").on("click", function(event) {
+        event.preventDefault();
 
-    //})//response close
-  });
+       
+        var cityInput = $(".cityText")
+          .val()
+          .trim();
+        cityArray.push(cityInput);
+         // clear input box
+         $(".cityText").val("");
+
+
+       $(".cityText").text((cityInput));
+
+        displayWeather(cityInput);
+
+        displaySearchedCity(cityInput);
+
+        fiveDayForecast(cityInput)
+
+        console.log(cityArray)
+    
+       
+      })
+  
+
+  $(".list-group-item-action").on("click", ".list-group-item", function(event) {
+    
+    console.log(event.currentTarget.innerText);
+    event.preventDefault();
+    $(".cityText").text(event.currentTarget.innerText);
+    displayWeather(event.currentTarget.innerText);
+    
+  })
+
 });

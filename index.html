@@ -27,7 +27,7 @@
   <body>
      
     <header>
-      <nav class="navbar navbar-dark bg-dark justify-content-center text-white">
+      <nav class="navbar navbar-dark bg-secondary justify-content-center text-white">
         <h1>Weather Dashboard</h1>
       </nav>
     </header>
@@ -61,7 +61,13 @@
           </div>
           <div class="col-md-8">
             <div class="card bg-light p-3 m-3 w-100">
-                <div class="card-body">
+               
+                  <div class="row pt-5" id="error-div">
+
+                    <h2 class="font-weight-bold" id="error">City not found.</h2>
+        
+                  </div>
+                  <div class="card-body" id="current-Weather">
                     <h2 class="card-title m-0" id="city"></h2>
                     
                     <h6 class="card-subtitle mb-2 text-muted" id="currentDateAndTime">Date: </h6>
@@ -83,9 +89,9 @@
 
             </div>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" id ="five-day-forecast">
 
-            <div id="day0" class="card mx-2 my-2 bg-primary">
+            <div id="day0" class="card mx-2 my-2 bg-info">
 
                 <div class ="card-body">
                 <h5 id="0date"></h5>
@@ -99,7 +105,7 @@
 
             </div>
 
-            <div id="day1" class="card  mx-2 my-2 bg-primary">
+            <div id="day1" class="card  mx-2 my-2 bg-info">
                     <div class= "card-body">
                     <h5 id="1date"></h5>
 
@@ -112,7 +118,7 @@
 
             </div>
 
-            <div id="day2" class="card  mx-2 my-2 bg-primary"> 
+            <div id="day2" class="card  mx-2 my-2 bg-info"> 
                    <div class= "card-body">
                     <h5 id="2date"></h5>
 
@@ -125,7 +131,7 @@
 
             </div>
 
-            <div id="day3" class="card mx-2 my-2  bg-primary">
+            <div id="day3" class="card mx-2 my-2  bg-info">
                  <div class= "card-body">
 
                     <h5 id="3date"></h5>
@@ -139,7 +145,7 @@
 
             </div>
 
-            <div id="day4" class="card mx-2 my-2  bg-primary">
+            <div id="day4" class="card mx-2 my-2  bg-info">
                   <div class="card-body">
 
                     <h5 id="4date"></h5>

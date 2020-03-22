@@ -2,6 +2,10 @@ $(document).ready(function() {
   var apiKey = "51cf29ba1bfca5fc3108cefcddf70638";
   cityArray = [];
 
+ 
+    //("#current-Weather").hide();
+    //$("#five-day-forecast").hide();
+    $("#error-div").hide();
   
 
     function displayWeather(city){
@@ -16,8 +20,18 @@ $(document).ready(function() {
 
     $.ajax({
       url: queryURL,
-      method: "GET"
+      method: "GET",
+      statusCode: {
+        404: function() {
+          $("#current-Weather").hide();
+          $("#five-day-forecast").hide();
+          $("#error-div").show();
+        }
+      }
     }).then(function(response) {
+      $("#error-div").hide();
+      $("#current-Weather").show();
+          $("#five-day-forecast").show();
       console.log(queryURL);
       var tempM = (response.main.temp - 273.15) * 1.8 + 32;
       var tempF = Math.floor(tempM);

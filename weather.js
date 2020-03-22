@@ -8,7 +8,7 @@ $(document).ready(function() {
 
   function displayWeather(city) {
     var queryURL =
-      "http://api.openweathermap.org/data/2.5/weather?q=" +
+      "https://api.openweathermap.org/data/2.5/weather?q=" +
       city +
       "&APPID=" +
       apiKey;
@@ -41,7 +41,7 @@ $(document).ready(function() {
       $("#currentWindSpeed").html(response.wind.speed);
       $("#weather_image").attr(
         "src",
-        "http://openweathermap.org/img/w/" + response.weather[0].icon + ".png"
+        "https://openweathermap.org/img/w/" + response.weather[0].icon + ".png"
       );
       $("#description_weather").html(response.weather[0].description);
       var lon = response.coord.lon;
@@ -92,7 +92,7 @@ $(document).ready(function() {
 
   function fiveDayForecast(cityInput) {
     var forecastURL =
-      "http://api.openweathermap.org/data/2.5/forecast?q=" +
+      "https://api.openweathermap.org/data/2.5/forecast?q=" +
       cityInput +
       "&APPID=" +
       apiKey;
@@ -134,7 +134,7 @@ $(document).ready(function() {
 
           $("#" + day_number + "five_day_icon").attr(
             "src",
-            "http://openweathermap.org/img/w/" +
+            "https://openweathermap.org/img/w/" +
               response.list[i].weather[0].icon +
               ".png"
           );

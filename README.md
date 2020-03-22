@@ -54,4 +54,4 @@ SOFTWARE.
 Following are the URLs:
 
 * The URL of the deployed application: https://vasavi245.github.io/week6_Homework/
-* The URL of the GitHub repository. Give the repository a unique name and include a README describing the project:
+* The URL of the GitHub repository. Give the repository a unique name and include a README describing the project: https://github.com/vasavi245/week6_Homework

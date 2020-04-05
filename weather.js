@@ -80,8 +80,7 @@ $(document).ready(function() {
 
   function displaySearchedCity(newCity) {
     $(".list-group-item-action").empty();
-    localStorage.setItem("SearchedCity", JSON.stringify(cityArray));
-    for (i = 0; i < cityArray.length; i++) {
+    for (var i = 0; i < cityArray.length; i++) {
       let listCities = $("<a href=#>");
       listCities.addClass("list-group-item");
       listCities.attr(cityArray[i]);
@@ -91,6 +90,7 @@ $(document).ready(function() {
   }
 
   function fiveDayForecast(cityInput) {
+    console.log(cityInput);
     var forecastURL =
       "https://api.openweathermap.org/data/2.5/forecast?q=" +
       cityInput +
@@ -169,6 +169,7 @@ $(document).ready(function() {
     fiveDayForecast(cityInput);
 
     console.log(cityArray);
+    localStorage.setItem("SearchedCity", JSON.stringify(cityArray));
   });
 
   $(".list-group-item-action").on("click", ".list-group-item", function(event) {
@@ -176,5 +177,6 @@ $(document).ready(function() {
     event.preventDefault();
     $(".cityText").text(event.currentTarget.innerText);
     displayWeather(event.currentTarget.innerText);
+    fiveDayForecast(event.currentTarget.innerText);
   });
 });

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   var apiKey = "51cf29ba1bfca5fc3108cefcddf70638";
   cityArray = [];
 
@@ -13,30 +13,30 @@ $(document).ready(function() {
       "&APPID=" +
       apiKey;
     var currentDate = moment()
-      .subtract(10, "days")
       .calendar();
 
     $.ajax({
       url: queryURL,
       method: "GET",
       statusCode: {
-        404: function() {
+        404: function () {
           $("#current-Weather").hide();
           $("#five-day-forecast").hide();
           $("#error-div").show();
         }
       }
-    }).then(function(response) {
+    }).then(function (response) {
       $("#error-div").hide();
       $("#current-Weather").show();
       $("#five-day-forecast").show();
       console.log(queryURL);
-      var tempM = (response.main.temp - 273.15) * 1.8 + 32;
-      var tempF = Math.floor(tempM);
+      console.log(response)
+      var tempM = (response.main.temp - 273.15)
+      var tempC = Math.floor(tempM);
 
       $("#city").text(response.name);
       $("#currentDateAndTime").text(currentDate);
-      $("#currentTempurature").html(`${tempF}&#176;F`);
+      $("#currentTempurature").html(`${tempC}&degC `);
       $("#currentHumidity").html(response.main.humidity + "%");
       $("#currentWindSpeed").html(response.wind.speed);
       $("#weather_image").attr(
@@ -57,7 +57,7 @@ $(document).ready(function() {
       $.ajax({
         url: uvURL,
         method: "GET"
-      }).then(function(response) {
+      }).then(function (response) {
         console.log(response);
         var uvIndex = response.value;
         var uvColor = "";
@@ -99,7 +99,7 @@ $(document).ready(function() {
     $.ajax({
       url: forecastURL,
       method: "GET"
-    }).then(function(response) {
+    }).then(function (response) {
       console.log(response);
 
       let day_number = 0;
@@ -120,12 +120,21 @@ $(document).ready(function() {
 
           $("#" + day_number + "date").text(month + "/" + day + "/" + year);
 
-          let temp = Math.round(
-            ((response.list[i].main.temp - 273.15) * 9) / 5 + 32
+          let tempMax = Math.round(
+            ((response.list[i].main.temp_max - 273.15))
           );
 
-          $("#" + day_number + "five_day_temp").text(
-            "Temp: " + temp + String.fromCharCode(176) + "F"
+          let tempMin = Math.round(
+            ((response.list[i].main.temp_min - 273.15))
+          );
+
+
+          $("#" + day_number + "five_day_temp_max").text(
+            "Max Temp: " + tempMax + String.fromCharCode(176) + "c"
+          );
+
+          $("#" + day_number + "five_day_temp_min").text(
+            "Min Temp: " + tempMin + String.fromCharCode(176) + "c"
           );
 
           $("#" + day_number + "five_day_humidity").text(
@@ -135,44 +144,52 @@ $(document).ready(function() {
           $("#" + day_number + "five_day_icon").attr(
             "src",
             "https://openweathermap.org/img/w/" +
-              response.list[i].weather[0].icon +
-              ".png"
+            response.list[i].weather[0].icon +
+            ".png"
           );
 
           console.log(response.list[i].dt_txt.split("-"));
 
           console.log(day_number);
 
-          console.log(response.list[i].main.temp);
+          console.log(tempMax);
+
+          console.log(tempMax);
 
           day_number++;
         }
       }
     });
   }
-  $("#searchBtn").on("click", function(event) {
+  $("#searchBtn").on("click", function (event) {
+
     event.preventDefault();
 
     var cityInput = $(".cityText")
       .val()
       .trim();
-    cityArray.push(cityInput);
-    // clear input box
-    $(".cityText").val("");
+    if (cityInput == '') {
+      alert("Enter a city")
+    }
+    else {
+      cityArray.push(cityInput);
+      // clear input box
+      $(".cityText").val("");
 
-    $(".cityText").text(cityInput);
+      $(".cityText").text(cityInput);
 
-    displayWeather(cityInput);
+      displayWeather(cityInput);
 
-    displaySearchedCity(cityInput);
+      displaySearchedCity(cityInput);
 
-    fiveDayForecast(cityInput);
+      fiveDayForecast(cityInput);
 
-    console.log(cityArray);
-    localStorage.setItem("SearchedCity", JSON.stringify(cityArray));
+      console.log(cityArray);
+      localStorage.setItem("SearchedCity", JSON.stringify(cityArray));
+    }
   });
 
-  $(".list-group-item-action").on("click", ".list-group-item", function(event) {
+  $(".list-group-item-action").on("click", ".list-group-item", function (event) {
     console.log(event.currentTarget.innerText);
     event.preventDefault();
     $(".cityText").text(event.currentTarget.innerText);

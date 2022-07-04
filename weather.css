@@ -1,3 +1,38 @@
-body{
-  background-image: url("https://www.goodfreephotos.com/albums/other-photos/backgrounds/beach-sand-ocean-with-sky-clouds.jpg")
+body {
+  /* background-image: url("https://www.goodfreephotos.com/albums/other-photos/backgrounds/beach-sand-ocean-with-sky-clouds.jpg");
+  background-repeat: none; */
+  background: #43c6ac; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #f8ffae,
+    #43c6ac
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #f8ffae,
+    #43c6ac
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+@media only screen and (max-width: 750px) {
+  .fluid {
+    margin: 1px;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .cont {
+    flex-direction: column;
+    justify-content: center;
+    margin: 1px;
+  }
+  .search-card {
+    max-width: 100%;
+    justify-content: center;
+  }
+  .weather-cards {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1em;
+    width: 100%
+  }
 }
